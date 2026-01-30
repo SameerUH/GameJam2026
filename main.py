@@ -1,6 +1,14 @@
 import pygame, random as rand
 import sys
 
+"""
+TO-DO:
+--- Make spinning squares.
+--- Add images to squares
+--- Make clickable squares.
+--- Add sounds to game.
+"""
+
 pygame.init()
 clock = pygame.time.Clock()
 
