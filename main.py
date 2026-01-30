@@ -18,7 +18,6 @@ SCREEN = pygame.display.set_mode([SCREENWIDTH, SCREENHEIGHT], pygame.RESIZABLE)
 
 velocity = 2
 
-
 class Mask:
     def __init__(self, x, y, width, height, colour, velocity):
         self.x = x
@@ -29,11 +28,8 @@ class Mask:
         self.velocity = velocity
 
     def draw_updatescreen(self):
-        self.shape = pygame.Surface((self.x, self.y))
-        self.shape.fill(self.colour)
-        self.originalshape = self.shape.copy()
-        self.rect = self.shape.get_rect()
-        self.rect.center = (SCREENWIDTH // 2, SCREENHEIGHT // 2)
+        self.shape = pygame.Rect(self.x, self.y, self.width, self.height)
+        pygame.draw.rect(SCREEN, self.colour, self.shape)
 
     
     def movement(self):
