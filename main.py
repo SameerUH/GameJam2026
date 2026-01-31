@@ -58,7 +58,7 @@ class Mask:
         pygame.draw.rect(SCREEN, "red", self.hitbox, 2)
 
     def movement(self):
-        if self.rect.y < 700:
+        if self.rect.y < 800:
             self.rect.y += self.velocity
         else:
             self.velocity = rand.randint(3, 10)
@@ -76,6 +76,7 @@ class Mask:
             if mouse_pos[0] > self.hitbox[0] and mouse_pos[0] < self.hitbox[0] + self.hitbox[2]:
                 if mouse_clicked:
                     self.rect.y = 0
+                    self.original_image = pygame.transform.scale(rand.choice(rand.choice(allmasks)), (self.width, self.height))
 
     def update(self):
         self.movement()
@@ -86,7 +87,7 @@ class Mask:
 
 objects = []
 
-x_coordinates = [100, 400, 800, 1000]
+x_coordinates = [i for i in range(100, 1800, 200)]
 for x in x_coordinates:
     objects.append(Mask(x, 0, 100, 100, 2, allmasks[rand.randint(0, 2)]))
 
@@ -112,7 +113,7 @@ while True:
     for object in objects:
         object.update()
 
-    floor = pygame.draw.rect(SCREEN, "white", (0, 800, 1600, 10), 2)
+    floor = pygame.draw.rect(SCREEN, "white", (0, 900, 1950, 10))
 
     clock.tick(60)
 
