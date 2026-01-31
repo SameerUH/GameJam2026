@@ -18,44 +18,40 @@ SCREEN = pygame.display.set_mode([SCREENWIDTH, SCREENHEIGHT], pygame.RESIZABLE)
 
 velocity = 2
 
+mask_images = []
+
+for i in range (1, 20):
+    img = pygame.image.load(f"Masquerade/mask_{i}.png").convert_alpha()
+    mask_images.append(img)
+
 class Mask:
-    def __init__(self, x, y, width, height, colour, velocity):
+    def __init__(self, x, y, width, height, velocity, mask_images):
         self.x = x
         self.y = y
         self.width = width
         self.height = height
-        self.colour = colour
         self.velocity = velocity
+        self.image = pygame.transform.scale(rand.choice(mask_images), (width, height))
+        self.rect = self.image.get_rect(topleft=(self.x, self.y))
 
     def draw_updatescreen(self):
-        self.shape = pygame.Rect(self.x, self.y, self.width, self.height)
-        pygame.draw.rect(SCREEN, self.colour, self.shape)
+        SCREEN.blit(self.image, self.rect)
 
     
     def movement(self):
-        if self.y < 550:
-            self.y += self.velocity
+        if self.rect.y < 550:
+            self.rect.y += self.velocity
         else:
             self.velocity = rand.randint(3, 10)
-            self.y = 0
+            self.rect.y = 0
 
-    def update(self, x, y, width, height, colour, velocity):
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
-        self.colour = colour
-        self.velocity = velocity
-
-    def functions(self):
-        self.draw_updatescreen()
+    def update(self):
         self.movement()
-        self.update(self.x, self.y, self.width, self.height, self.colour, self.velocity)
+        self.draw_updatescreen()
 
-test = Mask(100, 0, 50, 50, (rand.randint(0, 255), rand.randint(0, 255), rand.randint(0, 255)), 2)
-test2 = Mask(400, 0, 50, 50, (rand.randint(0, 255), rand.randint(0, 255), rand.randint(0, 255)), 2)
-test3 = Mask(800, 0, 50, 50, (rand.randint(0, 255), rand.randint(0, 255), rand.randint(0, 255)), 2)
-
+test = Mask(100, 0, 100, 100, 2, mask_images)
+test2 = Mask(400, 0, 100, 100, 2, mask_images)
+test3 = Mask(800, 0, 100, 100, 2, mask_images)
 
 while True:
     for event in pygame.event.get():
@@ -65,9 +61,9 @@ while True:
     
     SCREEN.fill("white")
 
-    test.functions()
-    test2.functions()
-    test3.functions()
+    test.update()
+    test2.update()
+    test3.update()
 
     clock.tick(60)
 
